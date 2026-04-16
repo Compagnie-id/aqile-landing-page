@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOPPP! — Your Phone, But It Argues Back</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        pixel: ['"Press Start 2P"', 'cursive'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        gold: {
+                            400: '#d4b87a',
+                            500: '#c9a96e',
+                            600: '#b8944f',
+                        },
+                        dusk: {
+                            900: '#0a0a2e',
+                            800: '#1a1040',
+                            700: '#2d1b69',
+                            600: '#5b3a8c',
+                            500: '#c76b8f',
+                            400: '#e8a87c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0a2e 0%, #12103a 20%, #2d1b69 42%, #5b3a8c 58%, #c76b8f 73%, #e8a87c 84%, #1a3a2a 84.1%, #0d1f15 92%, #070f0a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 4s ease;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.09);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 84%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: var(--peak); }
+        }
+
+        .firefly {
+            position: fixed;
+            width: 5px; height: 5px;
+            background: radial-gradient(circle, rgba(212, 184, 122, 0.9), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: drift var(--dur) ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes drift {
+            0%   { transform: translate(0, 0); opacity: 0; }
+            15%  { opacity: 0.85; }
+            50%  { transform: translate(var(--ax), var(--ay)); opacity: 0.3; }
+            85%  { opacity: 0.7; }
+            100% { transform: translate(var(--bx), var(--by)); opacity: 0; }
+        }
+
+        .hills-wrap {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%; height: 28vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hill { position: absolute; bottom: 0; border-radius: 50% 50% 0 0; }
+        .hill-1 { width: 130%; height: 27vh; left: -15%; background: linear-gradient(to top, #050e0a, #0d1f15); opacity: .92; }
+        .hill-2 { width: 75%;  height: 20vh; left: 35%;  background: linear-gradient(to top, #071510, #0a1f14); opacity: .65; }
+        .hill-3 { width: 55%;  height: 16vh; left: -8%;  background: linear-gradient(to top, #091a12, #0d2218); opacity: .55; }
+
+        .pixel-border {
+            box-shadow:
+                inset 0 0 0 2px rgba(201, 169, 110, 0.25),
+                0 0 0 2px rgba(201, 169, 110, 0.08);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s ease-out, transform .8s ease-out;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .btn-glow { position: relative; overflow: hidden; }
+        .btn-glow::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform .6s;
+        }
+        .btn-glow:hover::after { transform: translateX(100%); }
+
+        .icon-box {
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.14), rgba(201, 169, 110, 0.04));
+            border: 1px solid rgba(201, 169, 110, 0.18);
+        }
+
+        .step-num {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.18), rgba(201, 169, 110, 0.04));
+            border: 1px solid rgba(201, 169, 110, 0.25);
+        }
+
+        .app-icon {
+            background: linear-gradient(135deg, #2d1b69 0%, #5b3a8c 50%, #c76b8f 100%);
+            box-shadow:
+                0 0 30px rgba(91, 58, 140, 0.5),
+                0 0 60px rgba(199, 107, 143, 0.15),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .hero-icon { animation: float-icon 4s ease-in-out infinite; }
+
+        @keyframes scroll-hint {
+            0%, 100% { transform: translateY(0); opacity: .4; }
+            50% { transform: translateY(8px); opacity: .9; }
+        }
+        .scroll-hint { animation: scroll-hint 2.5s ease-in-out infinite; }
+
+        .section-fade {
+            background: linear-gradient(180deg,
+                rgba(10, 10, 46, 0) 0%,
+                rgba(10, 10, 46, 0.65) 12%,
+                rgba(10, 10, 46, 0.82) 50%,
+                rgba(10, 10, 46, 0.65) 88%,
+                rgba(10, 10, 46, 0) 100%
+            );
+        }
+
+        /* Terminal conversation styling */
+        .terminal-line {
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.7;
+        }
+
+        .terminal-wrap {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(201, 169, 110, 0.12);
+        }
+
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            animation: blink-cursor 1.1s step-end infinite;
+        }
+
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .modal-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(201, 169, 110, 0.2) transparent;
+        }
+
+        .char-fade { transition: opacity .35s ease, transform .35s ease; }
+        .char-fade.fading { opacity: 0; transform: translateY(6px); }
+
+        @keyframes typing-dot {
+            0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-3px); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(201, 169, 110, 0.25); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(201, 169, 110, 0.45); }
+    </style>
+</head>
+
+<body class="text-white antialiased">
+
+    <!-- Stars layer -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Fireflies layer -->
+    <div id="fireflies"></div>
+
+    <!-- Hills layer -->
+    <div class="hills-wrap">
+        <div class="hill hill-1"></div>
+        <div class="hill hill-2"></div>
+        <div class="hill hill-3"></div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-8 h-8 rounded-lg app-icon flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-pixel text-[10px] sm:text-xs text-gold-400 tracking-widest">HOPPP!</span>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
+               target="_blank" rel="noopener"
+               class="flex items-center gap-2 px-4 py-2 rounded-full glass text-xs sm:text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+                <span class="hidden sm:inline">Get on Google Play</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO + GOALKEEPER (combined full-screen) -->
+    <section class="relative min-h-screen flex items-center pt-16 z-10">
+        <div class="w-full max-w-6xl mx-auto px-6 py-16 lg:py-0">
+            <div class="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+
+                <!-- LEFT: Hero -->
+                <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <!-- <div class="reveal hero-icon mb-8 w-16 h-16 rounded-2xl app-icon flex items-center justify-center">
+                        <i data-lucide="shield-alert" class="w-8 h-8 text-white/90"></i>
+                    </div> -->
+
+                    <h1 class="reveal font-pixel text-xl sm:text-2xl text-gold-400 mb-5 tracking-[.25em]" style="transition-delay:.1s">
+                        HOPPP!
+                    </h1>
+
+                    <p class="reveal text-2xl sm:text-3xl font-light text-white/85 mb-3 tracking-tight leading-snug" style="transition-delay:.2s">
+                        Your phone,<br>but it argues back.
+                    </p>
+                    <p class="reveal text-sm sm:text-base font-light text-white/45 mb-10 max-w-sm leading-relaxed" style="transition-delay:.3s">
+                        Every other app blocker, you found a way around.
+                        This one asks why.
+                    </p>
+
+                    <div class="reveal flex flex-col sm:flex-row items-center lg:items-start gap-3" style="transition-delay:.4s">
+                        <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
+                           target="_blank" rel="noopener"
+                           class="btn-glow inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gold-500 text-dusk-900 font-medium text-sm hover:bg-gold-400 transition-colors duration-300 shadow-lg shadow-gold-500/25">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+                            Download Free
+                        </a>
+                        <a href="#how"
+                           class="inline-flex items-center gap-2 px-5 py-3.5 rounded-full glass text-white/60 text-sm hover:text-white hover:bg-white/10 transition-all duration-300">
+                            See How It Works
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Goalkeeper -->
+                <div class="reveal flex flex-col items-center gap-6" style="transition-delay:.2s">
+
+                    <!-- Label + character info -->
+                    <div id="char-info" class="text-center char-fade w-full">
+                        <p class="lg:hidden font-pixel text-[9px] text-gold-500/50 tracking-[.35em] uppercase mb-3">Who Stands Between You and Your Bad Habits</p>
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <h2 id="char-name" class="text-xl sm:text-2xl font-light tracking-tight text-white/90"></h2>
+                            <span id="char-tier" class="text-[9px] font-pixel px-2 py-1 rounded-full"></span>
+                        </div>
+                        <p id="char-tagline" class="text-sm font-light text-white/40 max-w-xs mx-auto leading-relaxed"></p>
+                    </div>
+
+                    <!-- Phone + arrows -->
+                    <div class="flex items-center gap-4 w-full justify-center">
+                        <button onclick="shiftCharacter(-1)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        </button>
+
+                        <div id="char-phone" class="char-fade phone-shell relative w-[260px] sm:w-[280px] rounded-[36px] overflow-hidden flex-shrink-0" style="background: linear-gradient(160deg, #1a1040 0%, #0d1520 60%, #0a0f18 100%); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 60px rgba(91,58,140,0.3), 0 32px 64px rgba(0,0,0,0.6);">
+                            <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 30% 20%, #5b3a8c 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, #c76b8f 0%, transparent 50%);"></div>
+                            <div class="relative z-10 flex flex-col" style="min-height: 460px;">
+                                <div class="flex items-center justify-between px-6 pt-4 pb-1">
+                                    <span class="text-[10px] text-white/30 font-medium">10:47</span>
+                                    <div class="w-3.5 h-2 rounded-sm border border-white/30 relative"><div class="absolute left-0.5 top-0.5 bottom-0.5 w-2 bg-white/40 rounded-[1px]"></div></div>
+                                </div>
+                                <div class="mx-4 mt-2 mb-3 rounded-2xl px-4 py-3 flex items-center justify-between" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); backdrop-filter: blur(20px);">
+                                    <div>
+                                        <p id="phone-char-name" class="text-[9px] font-semibold text-white/50 tracking-[2px] uppercase mb-0.5"></p>
+                                        <p class="text-[16px] font-semibold text-white/90">Instagram</p>
+                                    </div>
+                                    <div class="flex flex-col items-end gap-1.5">
+                                        <span class="text-[9px] text-white/40">Turn 2 of 3</span>
+                                        <div class="flex gap-1.5">
+                                            <div class="w-2 h-2 rounded-full bg-white/25"></div>
+                                            <div class="w-2 h-2 rounded-full bg-white/60"></div>
+                                            <div class="w-2 h-2 rounded-full bg-white/60"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-1 px-4 py-2 flex flex-col gap-3">
+                                    <div id="phone-bubble-opening" class="self-start max-w-[82%] rounded-2xl rounded-tl-sm px-4 py-3 text-[13px] leading-relaxed text-white/90" style="background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.14);"></div>
+                                    <div class="self-end max-w-[72%] rounded-2xl rounded-tr-sm px-4 py-3 text-[13px] leading-relaxed text-white/70" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);">I just need a quick break</div>
+                                    <div id="phone-bubble-response" class="self-start max-w-[82%] rounded-2xl rounded-tl-sm px-4 py-3 text-[13px] leading-relaxed text-white/90" style="background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.14);"></div>
+                                    <div class="self-start rounded-2xl rounded-tl-sm px-4 py-3" style="background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.14);">
+                                        <div class="flex gap-1 items-center">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-white/50" style="animation: typing-dot 1.2s ease-in-out infinite; animation-delay: 0ms;"></div>
+                                            <div class="w-1.5 h-1.5 rounded-full bg-white/50" style="animation: typing-dot 1.2s ease-in-out infinite; animation-delay: 200ms;"></div>
+                                            <div class="w-1.5 h-1.5 rounded-full bg-white/50" style="animation: typing-dot 1.2s ease-in-out infinite; animation-delay: 400ms;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mx-4 mb-6 mt-2 rounded-2xl px-4 py-3 flex items-center gap-3" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);">
+                                    <span class="flex-1 text-[13px] text-white/25">Your reason...</span>
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);">
+                                        <svg class="w-3.5 h-3.5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="shiftCharacter(1)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Dots -->
+                    <div id="char-dots" class="flex gap-2.5 items-center"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-hint z-10">
+            <i data-lucide="chevrons-down" class="w-5 h-5 text-white/25"></i>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="relative z-10 py-24 sm:py-32">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">Three Steps, No Excuses</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">How It Works</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-5 sm:gap-6">
+                <!-- Step 1 -->
+                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.1s">
+                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">01</div>
+                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="app-window" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Name Your Weakness</h3>
+                    <p class="text-sm font-light text-white/40 leading-relaxed">Pick the apps. Write your actual goal (not "be more productive"). Something real. It will hold you to it.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.2s">
+                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">02</div>
+                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="message-square" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Make Your Case</h3>
+                    <p class="text-sm font-light text-white/40 leading-relaxed">Reach for a blocked app and the Goalkeeper appears. It knows your goal. It knows the date. Convince it.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.3s">
+                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">03</div>
+                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="eye" class="w-6 h-6 text-gold-400"></i>
+                    </div>
+                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Have a Witness</h3>
+                    <p class="text-sm font-light text-white/40 leading-relaxed">Add one person who matters. They get a text when you fail. Not a leaderboard. Just one person who knows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="relative z-10 py-24 sm:py-32 section-fade">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">What Makes It Different</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">The App Blocker That Bites Back</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.1s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="brain" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">It Was Paying Attention</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Said "just a quick break" at 8pm? The Goalkeeper noted that. You can try again. It will remember you tried.</p>
+                    </div>
+                </div>
+
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.15s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="user" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Quick Setup, Then Hoppp!</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">One account, your goal, your apps. No lengthy onboarding, no tutorial you skip anyway. Done in under a minute.</p>
+                    </div>
+                </div>
+
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.2s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="users" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">One Witness Is Enough</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">You don't need a leaderboard. You need one person whose opinion of you actually matters.</p>
+                    </div>
+                </div>
+
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.25s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Your Habits Stay Yours</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Your patterns live on your device. The Goalkeeper doesn't gossip. Nothing leaves unless you say so.</p>
+                    </div>
+                </div>
+
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.3s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="zap" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">You Already Know Timers Don't Work</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">A timer is a lock you hold the key to. HOPPP! makes you explain yourself before you open the door.</p>
+                    </div>
+                </div>
+
+                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.35s">
+                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="battery-charging" class="w-5 h-5 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Quiet Until You're Not</h3>
+                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Sits in the background doing nothing. The moment you reach for a blocked app, it has questions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VERDICT EXAMPLES -->
+    <section class="relative z-10 py-24 sm:py-32">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-14">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">Case Files</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">It Doesn't Grade on a Curve</h2>
+            </div>
+
+            <div class="space-y-5">
+                <!-- Pass example -->
+                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.1s">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-2 h-2 rounded-full bg-green-400/80"></div>
+                        <span class="text-[11px] font-mono text-green-400/60 uppercase tracking-wider">Access Granted</span>
+                    </div>
+                    <p class="terminal-line text-[13px] text-white/50 mb-2">> Client messaged about the Tuesday deliverable. Need to reply.</p>
+                    <p class="terminal-line text-[13px] text-gold-400/80">Specific enough. You are in. Do not stay long.</p>
+                </div>
+
+                <!-- Fail example -->
+                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.2s">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-2 h-2 rounded-full bg-red-400/80"></div>
+                        <span class="text-[11px] font-mono text-red-400/60 uppercase tracking-wider">Access Denied</span>
+                    </div>
+                    <p class="terminal-line text-[13px] text-white/50 mb-2">> I just want to check something real quick</p>
+                    <p class="terminal-line text-[13px] text-gold-400/80">You said Friday mattered. It is Thursday at 11pm. Access denied.</p>
+                </div>
+
+                <!-- Roast example -->
+                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.3s">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-2 h-2 rounded-full bg-red-400/80"></div>
+                        <span class="text-[11px] font-mono text-red-400/60 uppercase tracking-wider">Access Denied</span>
+                    </div>
+                    <p class="terminal-line text-[13px] text-white/50 mb-2">> I need a break, I've been working all day</p>
+                    <p class="terminal-line text-[13px] text-gold-400/80">You have said that three times today. That is not a reason. That is a pattern.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEVELOPER NOTE -->
+    <section class="relative z-10 py-24 sm:py-32">
+        <div class="max-w-2xl mx-auto px-6">
+            <div class="reveal glass rounded-3xl p-8 sm:p-12">
+                <div class="flex items-start gap-5 mb-6">
+                    <div class="w-10 h-10 rounded-xl app-icon flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i data-lucide="message-circle-heart" class="w-5 h-5 text-white/80"></i>
+                    </div>
+                    <div>
+                        <p class="font-pixel text-[9px] text-gold-500/50 tracking-[.35em] uppercase mb-2">From the Developer</p>
+                        <h2 class="text-xl sm:text-2xl font-light tracking-tight text-white/90">This thing is very new.<br>And I built it for me, too.</h2>
+                    </div>
+                </div>
+
+                <div class="space-y-4 text-sm font-light text-white/50 leading-relaxed">
+                    <p>HOPPP! is an MVP. It works, it argues back, and The Goalkeeper has denied me <span id="denial-count" class="text-white/80 font-medium"></span> times since we launched. There is so much more I want to improve and I would rather make something people actually love using than keep shipping features nobody asked for.</p>
+                    <p>If something is broken, confusing, or missing, or you have a feature idea that would make this genuinely useful for your life, I want to hear it. Not via a feedback form that goes into a void. Directly.</p>
+                    <p class="text-white/30 italic">Yes, I will read it. No, I won't be offended. Probably.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-8">
+                    <a href="https://wa.me/62881080881097"
+                       target="_blank" rel="noopener"
+                       class="btn-glow flex items-center justify-center gap-2.5 px-6 py-3 rounded-full glass text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">
+                        <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Message on WhatsApp
+                    </a>
+                    <a href="mailto:sa@kobar.co"
+                       class="btn-glow flex items-center justify-center gap-2.5 px-6 py-3 rounded-full glass text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">
+                        <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
+                        sa@kobar.co
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="relative z-10 py-24 sm:py-32 section-fade">
+        <div class="max-w-lg mx-auto px-6">
+            <div class="reveal glass-strong rounded-3xl p-10 sm:p-14 text-center pixel-border">
+                <div class="hero-icon w-16 h-16 rounded-2xl app-icon flex items-center justify-center mx-auto mb-7">
+                    <i data-lucide="shield-alert" class="w-8 h-8 text-white/90"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-light tracking-tight text-white/90 mb-3">You already know you need this.</h2>
+                <p class="text-sm font-light text-white/40 mb-9 max-w-xs mx-auto leading-relaxed">
+                    Free to download. No excuses.<br>The Goalkeeper is already waiting.
+                </p>
+                <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
+                   target="_blank" rel="noopener"
+                   class="btn-glow inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-gold-500 text-dusk-900 font-medium text-sm hover:bg-gold-400 transition-colors duration-300 shadow-lg shadow-gold-500/25">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+                    Get HOPPP! Free
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 py-10 border-t border-white/[0.05]">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2.5">
+                <div class="w-6 h-6 rounded-md app-icon flex items-center justify-center">
+                    <i data-lucide="shield-alert" class="w-3 h-3 text-white/80"></i>
+                </div>
+                <span class="font-pixel text-[7px] text-white/25 tracking-widest">HOPPP!</span>
+            </div>
+            <p class="text-[11px] text-white/20 font-light">&copy; 2026 Kobar &middot; Crafted with Claude</p>
+            <div class="flex items-center gap-5">
+                <button onclick="openModal('privacy')" class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Privacy Policy</button>
+                <button onclick="openModal('terms')" class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Terms of Use</button>
+                <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
+                   target="_blank" rel="noopener"
+                   class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Google Play</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="modal-privacy" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 hidden">
+        <div class="modal-box glass-strong rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col" style="border: 1px solid rgba(255,255,255,0.16);">
+            <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-white/[0.08]">
+                <h2 class="text-base font-medium text-white/90 tracking-wide">Privacy Policy</h2>
+                <button onclick="closeModal('privacy')" class="text-white/30 hover:text-white/70 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto px-8 py-6 text-[13px] text-white/50 leading-relaxed space-y-6 modal-scroll">
+
+                <p class="text-white/30 text-[11px]">Last updated: April 2025</p>
+
+                <p>HOPPP! ("we", "our", "us") is developed by Kobar. This Privacy Policy explains what information we collect, how we use it, and what rights you have. We built this app on a local-first principle: your behavioral data lives on your device by default.</p>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">1. Information We Collect</h3>
+                    <p class="mb-3"><strong class="text-white/60">Information you provide:</strong> When you create an account, we collect your email address and the goal text you enter. The list of apps you choose to block is stored locally on your device.</p>
+                    <p class="mb-3"><strong class="text-white/60">Usage data:</strong> We collect session data related to app blocking attempts, turn counts, and challenge outcomes. This data is used to power the Goalkeeper feature and may be stored on our servers to deliver the service.</p>
+                    <p class="mb-3"><strong class="text-white/60">Device information:</strong> We may collect device identifiers (such as Android Advertising ID), operating system version, and app version for analytics, crash reporting, and advertising purposes.</p>
+                    <p><strong class="text-white/60">Friend notification data:</strong> If you optionally add a friend's phone number for accountability notifications, we store that number solely to deliver SMS messages when triggered. We do not use it for any other purpose.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">2. Advertising — AppLovin MAX</h3>
+                    <p class="mb-3">The free tier of HOPPP! displays advertisements served through <strong class="text-white/60">AppLovin MAX</strong>. AppLovin and its advertising partners may collect and use device identifiers and usage data to serve interest-based advertisements.</p>
+                    <p class="mb-3">AppLovin may collect: device identifiers, IP address, general location (country/region), device type and OS, in-app interaction data, and advertising interaction data.</p>
+                    <p class="mb-3">AppLovin's services may involve measurement partners operating under the <strong class="text-white/60">Open Measurement Working Group</strong> standards.</p>
+                    <p>For more information about AppLovin's data practices, visit <span class="text-gold-400/70">legal.applovin.com</span>. To opt out of interest-based advertising by AppLovin, visit <span class="text-gold-400/70">applovin.com/optout</span> or use your device's advertising opt-out settings.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">3. How We Use Your Information</h3>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>To provide and operate the HOPPP! service</li>
+                        <li>To power the Goalkeeper challenge feature using your stated goal</li>
+                        <li>To send friend accountability SMS notifications when triggered</li>
+                        <li>To display advertisements (free tier only)</li>
+                        <li>To improve the app through analytics and crash reporting</li>
+                        <li>To comply with legal obligations</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">4. Data Sharing</h3>
+                    <p class="mb-3">We do not sell your personal information. We share data only with:</p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li><strong class="text-white/60">AppLovin MAX</strong> — for ad delivery (free tier)</li>
+                        <li><strong class="text-white/60">Anthropic</strong> — your goal text and challenge context are sent to Anthropic's API to power the Goalkeeper conversation. This data is subject to Anthropic's privacy policy.</li>
+                        <li><strong class="text-white/60">Firebase / Google</strong> — for push notifications and crash analytics</li>
+                        <li><strong class="text-white/60">SMS provider (Twilio)</strong> — solely for friend accountability messages</li>
+                        <li><strong class="text-white/60">Legal authorities</strong> — when required by law</li>
+                    </ul>
+                    <p class="mt-3">We never share your behavioral data with social media companies, data brokers, or advertisers beyond what is described above.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">5. Your Rights & Choices</h3>
+                    <p class="mb-2">Depending on your location, you may have the right to:</p>
+                    <ul class="space-y-1.5 list-disc list-inside mb-3">
+                        <li>Access the personal data we hold about you</li>
+                        <li>Request correction or deletion of your data</li>
+                        <li>Opt out of interest-based advertising</li>
+                        <li>Opt out of the sale or sharing of your personal information</li>
+                        <li>Withdraw consent where processing is based on consent</li>
+                    </ul>
+                    <p class="mb-2"><strong class="text-white/60">To opt out of interest-based ads:</strong> Go to your device Settings → Privacy → Ads and enable "Opt out of Ads Personalisation", or reset your Advertising ID.</p>
+                    <p><strong class="text-white/60">To delete your account and data:</strong> Contact us at <span class="text-gold-400/70">privacy@kobar.co</span>. We will delete all server-side data within 30 days.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">6. Children's Privacy</h3>
+                    <p>HOPPP! is not directed at children under the age of 13 (or 16 where applicable under local law). We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, contact us at <span class="text-gold-400/70">privacy@kobar.co</span> and we will delete it promptly.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">7. Data Retention</h3>
+                    <p>We retain your account data for as long as your account is active. Session logs are retained for up to 90 days (premium) or 7 days (free). Friend phone numbers are deleted immediately if you remove the friend link. You may request deletion at any time.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">8. GDPR — EEA & UK Users</h3>
+                    <p>If you are located in the European Economic Area or the United Kingdom, our legal bases for processing are: performance of contract (to provide the service), legitimate interests (analytics, fraud prevention), and consent (advertising). You have the right to lodge a complaint with your local data protection authority.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">9. CCPA — California Residents</h3>
+                    <p>California residents have the right to know what personal information we collect, the right to delete, the right to opt out of the sale of personal information, and the right not to be discriminated against for exercising these rights. We do not sell personal information as defined under CCPA. To submit a request, contact <span class="text-gold-400/70">privacy@kobar.co</span>.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">10. Security</h3>
+                    <p>We use industry-standard security measures to protect your data. No method of transmission over the internet is 100% secure. We will notify you of any breach affecting your personal information as required by applicable law.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">11. Changes to This Policy</h3>
+                    <p>We may update this policy from time to time. We will notify you of material changes via in-app notice or email. Continued use of the app after changes constitutes acceptance.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">12. Contact</h3>
+                    <p>Kobar<br>Email: <span class="text-gold-400/70">privacy@kobar.co</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS OF USE MODAL -->
+    <div id="modal-terms" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 hidden">
+        <div class="modal-box glass-strong rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col" style="border: 1px solid rgba(255,255,255,0.16);">
+            <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-white/[0.08]">
+                <h2 class="text-base font-medium text-white/90 tracking-wide">Terms of Use</h2>
+                <button onclick="closeModal('terms')" class="text-white/30 hover:text-white/70 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto px-8 py-6 text-[13px] text-white/50 leading-relaxed space-y-6 modal-scroll">
+
+                <p class="text-white/30 text-[11px]">Last updated: April 2025</p>
+
+                <p>These Terms of Use govern your use of the HOPPP! mobile application ("App") provided by Kobar ("we", "us", "our"). By downloading or using the App you agree to these terms. If you do not agree, do not use the App.</p>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">1. The Service</h3>
+                    <p>HOPPP! is an app blocker that presents an interactive challenge (the "Goalkeeper") when you attempt to open a blocked app. The App requires an account and uses Android's Accessibility Service to detect and intercept app launches. By granting this permission, you authorise the App to display an overlay when you open a blocked app.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">2. Eligibility</h3>
+                    <p>You must be at least 13 years old (or the minimum age in your jurisdiction) to use the App. By using the App you represent that you meet this requirement.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">3. Your Account</h3>
+                    <p>You are responsible for maintaining the confidentiality of your account credentials and for all activity under your account. Notify us immediately of any unauthorised use at <span class="text-gold-400/70">support@kobar.co</span>.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">4. Accessibility Service Permission</h3>
+                    <p>The App requests Android Accessibility Service permission solely to detect when a blocked app is launched and to display the Goalkeeper overlay. This permission is not used to collect passwords, payment details, or other sensitive input. You may revoke this permission at any time in your device settings, which will disable the blocking functionality.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">5. Free Tier & Advertising</h3>
+                    <p class="mb-2">The free tier is supported by advertisements delivered through <strong class="text-white/60">AppLovin MAX</strong>. By using the free tier you consent to the display of ads. Ads will only appear:</p>
+                    <ul class="space-y-1.5 list-disc list-inside mb-2">
+                        <li>On the home/dashboard screen</li>
+                        <li>As an interstitial after your free turns are exhausted (to earn additional turns)</li>
+                    </ul>
+                    <p>Ads will never appear during a Goalkeeper challenge session, as push notifications, or from restricted categories (e.g. social media competitors, gambling directed at minors, adult content).</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">6. Premium Subscription</h3>
+                    <p>Premium subscriptions are billed in advance on a monthly or annual basis. Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period. You can manage or cancel your subscription in your Google Play or App Store account settings. We do not offer refunds for partial subscription periods except where required by applicable law.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">7. Friend Accountability Feature</h3>
+                    <p>If you add a friend's phone number, you confirm that you have obtained their consent to receive SMS notifications from HOPPP! on your behalf. You are responsible for ensuring this consent exists. We are not liable for any disputes arising from these notifications.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">8. Acceptable Use</h3>
+                    <p class="mb-2">You agree not to:</p>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>Reverse engineer, decompile, or modify the App</li>
+                        <li>Attempt to circumvent or disable the Goalkeeper mechanism through technical means</li>
+                        <li>Use the App to block emergency services or safety-critical applications</li>
+                        <li>Submit false, misleading, or abusive content through the challenge interface</li>
+                        <li>Use the App in any way that violates applicable laws</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">9. Intellectual Property</h3>
+                    <p>All content, branding, and software in the App are owned by Kobar or licensed to us. You are granted a limited, non-exclusive, non-transferable licence to use the App for personal, non-commercial purposes. Nothing in these Terms transfers any intellectual property rights to you.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">10. Disclaimer of Warranties</h3>
+                    <p>The App is provided "as is" without warranties of any kind, express or implied. We do not warrant that the App will be uninterrupted, error-free, or that the Goalkeeper feature will prevent all access to blocked apps. The App is a productivity aid, not a guaranteed solution.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">11. Limitation of Liability</h3>
+                    <p>To the maximum extent permitted by applicable law, Kobar shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the App. Our total liability for any claim under these Terms shall not exceed the amount you paid us in the 12 months preceding the claim.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">12. Termination</h3>
+                    <p>We may suspend or terminate your access to the App at any time if you breach these Terms. You may stop using the App and delete your account at any time. Upon termination, your licence to use the App ends immediately.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">13. Changes to These Terms</h3>
+                    <p>We may update these Terms from time to time. We will notify you of material changes via in-app notice or email. Continued use after the effective date constitutes acceptance of the updated Terms.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">14. Governing Law</h3>
+                    <p>These Terms are governed by the laws of the jurisdiction in which Kobar is registered. Any disputes shall be resolved in the courts of that jurisdiction, except where overriding local consumer protection laws apply in your country of residence.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white/70 font-medium mb-2">15. Contact</h3>
+                    <p>Kobar<br>Email: <span class="text-gold-400/70">support@kobar.co</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        lucide.createIcons();
+
+        // ── Time-based background gradient ────────────────────────────────────
+        const BG = {
+            // 22:00 – 05:59  deep night, near-black indigo
+            night: 'linear-gradient(180deg, #010106 0%, #05060f 20%, #0a0820 42%, #130d30 58%, #0e0820 73%, #070514 84%, #081208 84.1%, #040b05 92%, #020402 100%)',
+            // 06:00 – 09:59  pre-dawn / warm sunrise
+            dawn:  'linear-gradient(180deg, #0c0820 0%, #1a0f38 20%, #3d1845 42%, #7a2e55 58%, #c25040 73%, #e88040 84%, #1a3a1a 84.1%, #0d1f10 92%, #070f07 100%)',
+            // 10:00 – 16:59  open sky, deep blue midday
+            day:   'linear-gradient(180deg, #040f1e 0%, #091a38 20%, #123060 42%, #1e5080 58%, #2a6a90 73%, #5a8faa 84%, #183820 84.1%, #0d1f15 92%, #070f0a 100%)',
+            // 17:00 – 19:59  golden hour / dusk (original palette)
+            dusk:  'linear-gradient(180deg, #0a0a2e 0%, #12103a 20%, #2d1b69 42%, #5b3a8c 58%, #c76b8f 73%, #e8a87c 84%, #1a3a2a 84.1%, #0d1f15 92%, #070f0a 100%)',
+            // 20:00 – 21:59  twilight, fading purple
+            twilight: 'linear-gradient(180deg, #060615 0%, #0c0a28 20%, #1a1045 42%, #2e1a60 58%, #5a2a70 73%, #7a3a60 84%, #0e1e10 84.1%, #080f0a 92%, #040806 100%)',
+        };
+
+        function getBgKey(h) {
+            if (h >= 6  && h < 10) return 'dawn';
+            if (h >= 10 && h < 17) return 'day';
+            if (h >= 17 && h < 20) return 'dusk';
+            if (h >= 20 && h < 22) return 'twilight';
+            return 'night';
+        }
+
+        function applyBg() {
+            const key = getBgKey(new Date().getHours());
+            document.body.style.background = BG[key];
+            document.body.style.backgroundAttachment = 'fixed';
+        }
+
+        applyBg();
+        setInterval(applyBg, 60000); // re-check every minute
+
+        (function() {
+            const d = new Date();
+            let count = d.getDate() + (d.getMonth() + 1) + (d.getFullYear() % 100);
+            document.getElementById('denial-count').textContent = count.toLocaleString();
+        })();
+
+        // ── Goalkeeper character switcher ──────────────────────────────────────
+        const CHARACTERS = [
+            {
+                name: 'The Archivist',
+                tier: 'free',
+                tagline: 'Dry, precise, unhurried. Quotes your own words back at you.',
+                opening: 'Instagram. 10:47pm. Third attempt today. Your deadline is Friday. Reason?',
+                response: 'You said that at 8pm. And at 9:15pm. That is not a reason. That is a habit.',
+            },
+            {
+                name: 'The Handler',
+                tier: 'premium',
+                tagline: 'Spy thriller. Treats your goals like a mission and your excuses like cover stories.',
+                opening: 'Target: Instagram. 22:47 hours. Third breach attempt today. State your clearance.',
+                response: 'That is not clearance. That is a cover story. Access denied. Stand down.',
+            },
+            {
+                name: 'The Professor',
+                tier: 'premium',
+                tagline: 'Academic. Weary. Grades your reasoning like an essay. Sighs are implied.',
+                opening: 'Instagram. Again. Deadline Friday. Present your argument.',
+                response: 'D minus. You submitted this exact argument at 20:00 and 21:15. Denied. Come back with something original.',
+            },
+            {
+                name: 'The Ghost',
+                tier: 'premium',
+                tagline: 'Says almost nothing. Somehow makes it worse.',
+                opening: '...',
+                response: 'You said that before.',
+            },
+            {
+                name: 'The Hype Man',
+                tier: 'premium',
+                tagline: 'Loud, betrayed, and somehow still rooting for you.',
+                opening: 'BRO. Instagram?? Right now?? We talked about this. Friday is in TWO DAYS.',
+                response: 'A break?! You took one at 8. Then at 9. Bro I still believe in you but you are NOT making this easy.',
+            },
+        ];
+
+        let currentChar = 0;
+
+        function renderCharacter(idx, dir) {
+            const c = CHARACTERS[idx];
+            const fadeEls = document.querySelectorAll('.char-fade');
+
+            fadeEls.forEach(el => el.classList.add('fading'));
+
+            setTimeout(() => {
+                document.getElementById('char-name').textContent = c.name;
+                document.getElementById('char-tagline').textContent = c.tagline;
+                document.getElementById('phone-char-name').textContent = c.name;
+                document.getElementById('phone-bubble-opening').textContent = c.opening;
+                document.getElementById('phone-bubble-response').textContent = c.response;
+
+                const tierEl = document.getElementById('char-tier');
+                if (c.tier === 'free') {
+                    tierEl.textContent = 'FREE';
+                    tierEl.style.cssText = 'background: rgba(29,185,84,0.15); border: 1px solid rgba(29,185,84,0.3); color: rgba(29,185,84,0.9);';
+                } else {
+                    tierEl.textContent = 'PREMIUM';
+                    tierEl.style.cssText = 'background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.3); color: rgba(201,169,110,0.8);';
+                }
+
+                document.querySelectorAll('#char-dots button').forEach((dot, i) => {
+                    dot.style.opacity = i === idx ? '1' : '0.3';
+                    dot.style.transform = i === idx ? 'scale(1.3)' : 'scale(1)';
+                });
+
+                fadeEls.forEach(el => el.classList.remove('fading'));
+            }, 350);
+        }
+
+        function shiftCharacter(dir) {
+            currentChar = (currentChar + dir + CHARACTERS.length) % CHARACTERS.length;
+            renderCharacter(currentChar, dir);
+        }
+
+        // Build dots
+        const dotsEl = document.getElementById('char-dots');
+        CHARACTERS.forEach((_, i) => {
+            const btn = document.createElement('button');
+            btn.style.cssText = 'width:7px; height:7px; border-radius:50%; background:rgba(201,169,110,0.6); transition: opacity .3s, transform .3s;';
+            btn.onclick = () => { currentChar = i; renderCharacter(i, 0); };
+            dotsEl.appendChild(btn);
+        });
+
+        renderCharacter(0, 0);
+
+        function openModal(id) {
+            const el = document.getElementById('modal-' + id);
+            el.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            const el = document.getElementById('modal-' + id);
+            el.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        // Close on backdrop click
+        document.querySelectorAll('.modal-backdrop').forEach(el => {
+            el.addEventListener('click', e => {
+                if (e.target === el) closeModal(el.id.replace('modal-', ''));
+            });
+        });
+        // Close on Escape
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-backdrop:not(.hidden)').forEach(el => {
+                    closeModal(el.id.replace('modal-', ''));
+                });
+            }
+        });
+
+        // Stars
+        const starsEl = document.getElementById('stars');
+        for (let i = 0; i < 90; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = 1 + Math.random() * 1.5;
+            Object.assign(s.style, {
+                left: Math.random() * 100 + '%',
+                top: Math.random() * 100 + '%',
+                width: size + 'px', height: size + 'px',
+            });
+            s.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+            s.style.setProperty('--peak', (.25 + Math.random() * .75).toFixed(2));
+            s.style.animationDelay = (Math.random() * 6) + 's';
+            starsEl.appendChild(s);
+        }
+
+        // Fireflies
+        const ffEl = document.getElementById('fireflies');
+        for (let i = 0; i < 14; i++) {
+            const f = document.createElement('div');
+            f.className = 'firefly';
+            Object.assign(f.style, {
+                left: (8 + Math.random() * 84) + '%',
+                top: (48 + Math.random() * 42) + '%',
+            });
+            f.style.setProperty('--dur', (9 + Math.random() * 14) + 's');
+            f.style.setProperty('--ax', (Math.random() * 120 - 60) + 'px');
+            f.style.setProperty('--ay', (Math.random() * 80 - 40) + 'px');
+            f.style.setProperty('--bx', (Math.random() * 120 - 60) + 'px');
+            f.style.setProperty('--by', (Math.random() * 80 - 40) + 'px');
+            f.style.animationDelay = (Math.random() * 12) + 's';
+            ffEl.appendChild(f);
+        }
+
+        // Scroll reveal
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>
