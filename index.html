@@ -38,12 +38,14 @@
         }
     </script>
     <style>
+        html, body {
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(180deg, #0a0a2e 0%, #12103a 20%, #2d1b69 42%, #5b3a8c 58%, #c76b8f 73%, #e8a87c 84%, #1a3a2a 84.1%, #0d1f15 92%, #070f0a 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            overflow-x: hidden;
             transition: background 4s ease;
         }
 
@@ -257,36 +259,36 @@
 
     <!-- HERO + GOALKEEPER (combined full-screen) -->
     <section class="relative min-h-screen flex items-center pt-16 z-10">
-        <div class="w-full max-w-6xl mx-auto px-6 py-16 lg:py-0">
-            <div class="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div class="w-full max-w-6xl mx-auto px-5 sm:px-8 py-12 lg:py-0">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
                 <!-- LEFT: Hero -->
-                <div class="flex flex-col items-center lg:items-start text-center lg:text-left">
+                <div class="flex flex-col items-center lg:items-start text-center lg:text-left min-h-[calc(100svh-64px)] justify-center lg:min-h-0">
                     <!-- <div class="reveal hero-icon mb-8 w-16 h-16 rounded-2xl app-icon flex items-center justify-center">
                         <i data-lucide="shield-alert" class="w-8 h-8 text-white/90"></i>
                     </div> -->
 
-                    <h1 class="reveal font-pixel text-xl sm:text-2xl text-gold-400 mb-5 tracking-[.25em]" style="transition-delay:.1s">
+                    <h1 class="reveal font-pixel text-lg sm:text-2xl text-gold-400 mb-4 tracking-[.25em]" style="transition-delay:.1s">
                         HOPPP!
                     </h1>
 
-                    <p class="reveal text-2xl sm:text-3xl font-light text-white/85 mb-3 tracking-tight leading-snug" style="transition-delay:.2s">
+                    <p class="reveal text-[1.6rem] sm:text-3xl font-light text-white mb-3 tracking-tight leading-snug" style="transition-delay:.2s">
                         Your phone,<br>but it argues back.
                     </p>
-                    <p class="reveal text-sm sm:text-base font-light text-white/45 mb-10 max-w-sm leading-relaxed" style="transition-delay:.3s">
+                    <p class="reveal text-sm sm:text-base font-light text-white/65 mb-8 max-w-sm leading-relaxed" style="transition-delay:.3s">
                         Every other app blocker, you found a way around.
                         This one asks why.
                     </p>
 
-                    <div class="reveal flex flex-col sm:flex-row items-center lg:items-start gap-3" style="transition-delay:.4s">
+                    <div class="reveal flex flex-col sm:flex-row items-center lg:items-start gap-3 w-full sm:w-auto" style="transition-delay:.4s">
                         <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
                            target="_blank" rel="noopener"
-                           class="btn-glow inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gold-500 text-dusk-900 font-medium text-sm hover:bg-gold-400 transition-colors duration-300 shadow-lg shadow-gold-500/25">
+                           class="btn-glow w-full sm:w-auto justify-center inline-flex items-center gap-3 px-7 py-4 rounded-full bg-gold-500 text-dusk-900 font-medium text-sm hover:bg-gold-400 transition-colors duration-300 shadow-lg shadow-gold-500/25">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
                             Download Free
                         </a>
                         <a href="#how"
-                           class="inline-flex items-center gap-2 px-5 py-3.5 rounded-full glass text-white/60 text-sm hover:text-white hover:bg-white/10 transition-all duration-300">
+                           class="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-5 py-4 rounded-full glass text-white/75 text-sm hover:text-white hover:bg-white/10 transition-all duration-300">
                             See How It Works
                             <i data-lucide="chevron-down" class="w-4 h-4"></i>
                         </a>
@@ -294,25 +296,25 @@
                 </div>
 
                 <!-- RIGHT: Goalkeeper -->
-                <div class="reveal flex flex-col items-center gap-6" style="transition-delay:.2s">
+                <div class="reveal flex flex-col items-center gap-6 pb-16 lg:pb-0" style="transition-delay:.2s">
 
                     <!-- Label + character info -->
                     <div id="char-info" class="text-center char-fade w-full">
-                        <p class="lg:hidden font-pixel text-[9px] text-gold-500/50 tracking-[.35em] uppercase mb-3">Who Stands Between You and Your Bad Habits</p>
+                        <p class="lg:hidden font-pixel text-[9px] text-gold-400/70 tracking-[.25em] uppercase mb-3">Who Stands Between You and Your Bad Habits</p>
                         <div class="flex items-center justify-center gap-2 mb-2">
                             <h2 id="char-name" class="text-xl sm:text-2xl font-light tracking-tight text-white/90"></h2>
                             <span id="char-tier" class="text-[9px] font-pixel px-2 py-1 rounded-full"></span>
                         </div>
-                        <p id="char-tagline" class="text-sm font-light text-white/40 max-w-xs mx-auto leading-relaxed"></p>
+                        <p id="char-tagline" class="text-sm font-light text-white/60 max-w-xs mx-auto leading-relaxed"></p>
                     </div>
 
                     <!-- Phone + arrows -->
-                    <div class="flex items-center gap-4 w-full justify-center">
-                        <button onclick="shiftCharacter(-1)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
+                    <div class="flex items-center gap-2 sm:gap-4 w-full justify-center">
+                        <button onclick="shiftCharacter(-1)" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
                             <i data-lucide="chevron-left" class="w-4 h-4"></i>
                         </button>
 
-                        <div id="char-phone" class="char-fade phone-shell relative w-[260px] sm:w-[280px] rounded-[36px] overflow-hidden flex-shrink-0" style="background: linear-gradient(160deg, #1a1040 0%, #0d1520 60%, #0a0f18 100%); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 60px rgba(91,58,140,0.3), 0 32px 64px rgba(0,0,0,0.6);">
+                        <div id="char-phone" class="char-fade phone-shell relative flex-1 max-w-[260px] sm:max-w-[300px] rounded-[36px] overflow-hidden" style="background: linear-gradient(160deg, #1a1040 0%, #0d1520 60%, #0a0f18 100%); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 60px rgba(91,58,140,0.3), 0 32px 64px rgba(0,0,0,0.6);">
                             <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 30% 20%, #5b3a8c 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, #c76b8f 0%, transparent 50%);"></div>
                             <div class="relative z-10 flex flex-col" style="min-height: 460px;">
                                 <div class="flex items-center justify-between px-6 pt-4 pb-1">
@@ -354,7 +356,7 @@
                             </div>
                         </div>
 
-                        <button onclick="shiftCharacter(1)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
+                        <button onclick="shiftCharacter(1)" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-white/80 hover:bg-white/10 transition-all duration-300 flex-shrink-0">
                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -372,111 +374,111 @@
     </section>
 
     <!-- HOW IT WORKS -->
-    <section id="how" class="relative z-10 py-24 sm:py-32">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">Three Steps, No Excuses</p>
-                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">How It Works</h2>
+    <section id="how" class="relative z-10 py-14 sm:py-24">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div class="text-center mb-9 sm:mb-14">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-400/70 tracking-[.25em] uppercase mb-3">Three Steps, No Excuses</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white" style="transition-delay:.1s">How It Works</h2>
             </div>
 
-            <div class="grid sm:grid-cols-3 gap-5 sm:gap-6">
+            <div class="grid sm:grid-cols-3 gap-3 sm:gap-6">
                 <!-- Step 1 -->
-                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.1s">
-                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">01</div>
-                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
-                        <i data-lucide="app-window" class="w-6 h-6 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-5 sm:p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.1s">
+                    <div class="step-num w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 text-gold-400 text-[9px]">01</div>
+                    <div class="icon-box w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="app-window" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-400"></i>
                     </div>
-                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Name Your Weakness</h3>
-                    <p class="text-sm font-light text-white/40 leading-relaxed">Pick the apps. Write your actual goal (not "be more productive"). Something real. It will hold you to it.</p>
+                    <h3 class="text-sm sm:text-[15px] font-medium text-white mb-2">Name Your Weakness</h3>
+                    <p class="text-sm font-light text-white/60 leading-relaxed">Pick the apps. Write your actual goal (not "be more productive"). Something real. It will hold you to it.</p>
                 </div>
                 <!-- Step 2 -->
-                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.2s">
-                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">02</div>
-                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
-                        <i data-lucide="message-square" class="w-6 h-6 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-5 sm:p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.2s">
+                    <div class="step-num w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 text-gold-400 text-[9px]">02</div>
+                    <div class="icon-box w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="message-square" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-400"></i>
                     </div>
-                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Make Your Case</h3>
-                    <p class="text-sm font-light text-white/40 leading-relaxed">Reach for a blocked app and the Goalkeeper appears. It knows your goal. It knows the date. Convince it.</p>
+                    <h3 class="text-sm sm:text-[15px] font-medium text-white mb-2">Make Your Case</h3>
+                    <p class="text-sm font-light text-white/60 leading-relaxed">Reach for a blocked app and the Goalkeeper appears. It knows your goal. It knows the date. Convince it.</p>
                 </div>
                 <!-- Step 3 -->
-                <div class="reveal glass rounded-2xl p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.3s">
-                    <div class="step-num w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-6 text-gold-400 text-[10px]">03</div>
-                    <div class="icon-box w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-transform duration-500 group-hover:scale-110">
-                        <i data-lucide="eye" class="w-6 h-6 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-5 sm:p-8 text-center hover:bg-white/[0.08] transition-all duration-500 group" style="transition-delay:.3s">
+                    <div class="step-num w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 text-gold-400 text-[9px]">03</div>
+                    <div class="icon-box w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-110">
+                        <i data-lucide="eye" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-400"></i>
                     </div>
-                    <h3 class="text-[15px] font-medium text-white/90 mb-2.5">Have a Witness</h3>
-                    <p class="text-sm font-light text-white/40 leading-relaxed">Add one person who matters. They get a text when you fail. Not a leaderboard. Just one person who knows.</p>
+                    <h3 class="text-sm sm:text-[15px] font-medium text-white mb-2">Have a Witness</h3>
+                    <p class="text-sm font-light text-white/60 leading-relaxed">Add one person who matters. They get a text when you fail. Not a leaderboard. Just one person who knows.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FEATURES -->
-    <section id="features" class="relative z-10 py-24 sm:py-32 section-fade">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">What Makes It Different</p>
-                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">The App Blocker That Bites Back</h2>
+    <section id="features" class="relative z-10 py-14 sm:py-24 section-fade">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div class="text-center mb-9 sm:mb-14">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-400/70 tracking-[.25em] uppercase mb-3">What Makes It Different</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white" style="transition-delay:.1s">The App Blocker That Bites Back</h2>
             </div>
 
-            <div class="grid sm:grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.1s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="brain" class="w-5 h-5 text-gold-400"></i>
+            <div class="grid sm:grid-cols-2 gap-3 sm:gap-5 max-w-3xl mx-auto">
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.1s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="brain" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">It Was Paying Attention</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Said "just a quick break" at 8pm? The Goalkeeper noted that. You can try again. It will remember you tried.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">It Was Paying Attention</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">Said "just a quick break" at 8pm? The Goalkeeper noted that. You can try again. It will remember you tried.</p>
                     </div>
                 </div>
 
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.15s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="user" class="w-5 h-5 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.15s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="user" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Quick Setup, Then Hoppp!</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">One account, your goal, your apps. No lengthy onboarding, no tutorial you skip anyway. Done in under a minute.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">Quick Setup, Then Hoppp!</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">One account, your goal, your apps. No lengthy onboarding, no tutorial you skip anyway. Done in under a minute.</p>
                     </div>
                 </div>
 
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.2s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="users" class="w-5 h-5 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.2s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="users" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">One Witness Is Enough</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">You don't need a leaderboard. You need one person whose opinion of you actually matters.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">One Witness Is Enough</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">You don't need a leaderboard. You need one person whose opinion of you actually matters.</p>
                     </div>
                 </div>
 
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.25s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="shield-check" class="w-5 h-5 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.25s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Your Habits Stay Yours</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Your patterns live on your device. The Goalkeeper doesn't gossip. Nothing leaves unless you say so.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">Your Habits Stay Yours</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">Your patterns live on your device. The Goalkeeper doesn't gossip. Nothing leaves unless you say so.</p>
                     </div>
                 </div>
 
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.3s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="zap" class="w-5 h-5 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.3s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">You Already Know Timers Don't Work</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">A timer is a lock you hold the key to. HOPPP! makes you explain yourself before you open the door.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">You Already Know Timers Don't Work</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">A timer is a lock you hold the key to. HOPPP! makes you explain yourself before you open the door.</p>
                     </div>
                 </div>
 
-                <div class="reveal glass rounded-2xl p-6 sm:p-7 flex gap-5 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.35s">
-                    <div class="icon-box w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="battery-charging" class="w-5 h-5 text-gold-400"></i>
+                <div class="reveal glass rounded-2xl p-4 sm:p-7 flex gap-4 items-start hover:bg-white/[0.08] transition-all duration-500" style="transition-delay:.35s">
+                    <div class="icon-box w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="battery-charging" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-white/90 mb-1.5">Quiet Until You're Not</h3>
-                        <p class="text-[13px] font-light text-white/40 leading-relaxed">Sits in the background doing nothing. The moment you reach for a blocked app, it has questions.</p>
+                        <h3 class="text-sm font-medium text-white mb-1.5">Quiet Until You're Not</h3>
+                        <p class="text-[13px] font-light text-white/60 leading-relaxed">Sits in the background doing nothing. The moment you reach for a blocked app, it has questions.</p>
                     </div>
                 </div>
             </div>
@@ -484,68 +486,68 @@
     </section>
 
     <!-- VERDICT EXAMPLES -->
-    <section class="relative z-10 py-24 sm:py-32">
-        <div class="max-w-3xl mx-auto px-6">
-            <div class="text-center mb-14">
-                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-500/50 tracking-[.35em] uppercase mb-4">Case Files</p>
-                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white/90" style="transition-delay:.1s">It Doesn't Grade on a Curve</h2>
+    <section class="relative z-10 py-14 sm:py-24">
+        <div class="max-w-3xl mx-auto px-5 sm:px-8">
+            <div class="text-center mb-8 sm:mb-12">
+                <p class="reveal font-pixel text-[9px] sm:text-[10px] text-gold-400/70 tracking-[.25em] uppercase mb-3">Case Files</p>
+                <h2 class="reveal text-2xl sm:text-4xl font-light tracking-tight text-white" style="transition-delay:.1s">It Doesn't Grade on a Curve</h2>
             </div>
 
-            <div class="space-y-5">
+            <div class="space-y-3 sm:space-y-5">
                 <!-- Pass example -->
-                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.1s">
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <div class="w-2 h-2 rounded-full bg-green-400/80"></div>
-                        <span class="text-[11px] font-mono text-green-400/60 uppercase tracking-wider">Access Granted</span>
+                <div class="reveal glass rounded-2xl p-5 sm:p-7" style="transition-delay:.1s">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-2 h-2 rounded-full bg-green-400/90 flex-shrink-0"></div>
+                        <span class="text-[11px] font-mono text-green-400/80 uppercase tracking-wider">Access Granted</span>
                     </div>
-                    <p class="terminal-line text-[13px] text-white/50 mb-2">> Client messaged about the Tuesday deliverable. Need to reply.</p>
-                    <p class="terminal-line text-[13px] text-gold-400/80">Specific enough. You are in. Do not stay long.</p>
+                    <p class="terminal-line text-[13px] text-white/65 mb-2">> Client messaged about the Tuesday deliverable. Need to reply.</p>
+                    <p class="terminal-line text-[13px] text-gold-400">Specific enough. You are in. Do not stay long.</p>
                 </div>
 
                 <!-- Fail example -->
-                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.2s">
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <div class="w-2 h-2 rounded-full bg-red-400/80"></div>
-                        <span class="text-[11px] font-mono text-red-400/60 uppercase tracking-wider">Access Denied</span>
+                <div class="reveal glass rounded-2xl p-5 sm:p-7" style="transition-delay:.2s">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-2 h-2 rounded-full bg-red-400/90 flex-shrink-0"></div>
+                        <span class="text-[11px] font-mono text-red-400/80 uppercase tracking-wider">Access Denied</span>
                     </div>
-                    <p class="terminal-line text-[13px] text-white/50 mb-2">> I just want to check something real quick</p>
-                    <p class="terminal-line text-[13px] text-gold-400/80">You said Friday mattered. It is Thursday at 11pm. Access denied.</p>
+                    <p class="terminal-line text-[13px] text-white/65 mb-2">> I just want to check something real quick</p>
+                    <p class="terminal-line text-[13px] text-gold-400">You said Friday mattered. It is Thursday at 11pm. Access denied.</p>
                 </div>
 
                 <!-- Roast example -->
-                <div class="reveal glass rounded-2xl p-6 sm:p-7" style="transition-delay:.3s">
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <div class="w-2 h-2 rounded-full bg-red-400/80"></div>
-                        <span class="text-[11px] font-mono text-red-400/60 uppercase tracking-wider">Access Denied</span>
+                <div class="reveal glass rounded-2xl p-5 sm:p-7" style="transition-delay:.3s">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-2 h-2 rounded-full bg-red-400/90 flex-shrink-0"></div>
+                        <span class="text-[11px] font-mono text-red-400/80 uppercase tracking-wider">Access Denied</span>
                     </div>
-                    <p class="terminal-line text-[13px] text-white/50 mb-2">> I need a break, I've been working all day</p>
-                    <p class="terminal-line text-[13px] text-gold-400/80">You have said that three times today. That is not a reason. That is a pattern.</p>
+                    <p class="terminal-line text-[13px] text-white/65 mb-2">> I need a break, I've been working all day</p>
+                    <p class="terminal-line text-[13px] text-gold-400">You have said that three times today. That is not a reason. That is a pattern.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- DEVELOPER NOTE -->
-    <section class="relative z-10 py-24 sm:py-32">
-        <div class="max-w-2xl mx-auto px-6">
-            <div class="reveal glass rounded-3xl p-8 sm:p-12">
-                <div class="flex items-start gap-5 mb-6">
-                    <div class="w-10 h-10 rounded-xl app-icon flex items-center justify-center flex-shrink-0 mt-0.5">
+    <section class="relative z-10 py-14 sm:py-24">
+        <div class="max-w-2xl mx-auto px-5 sm:px-8">
+            <div class="reveal glass rounded-2xl sm:rounded-3xl p-6 sm:p-12">
+                <div class="flex items-start gap-4 mb-5">
+                    <!-- <div class="w-10 h-10 rounded-xl app-icon flex items-center justify-center flex-shrink-0 mt-0.5">
                         <i data-lucide="message-circle-heart" class="w-5 h-5 text-white/80"></i>
-                    </div>
+                    </div> -->
                     <div>
-                        <p class="font-pixel text-[9px] text-gold-500/50 tracking-[.35em] uppercase mb-2">From the Developer</p>
-                        <h2 class="text-xl sm:text-2xl font-light tracking-tight text-white/90">This thing is very new.<br>And I built it for me, too.</h2>
+                        <p class="font-pixel text-[9px] text-gold-400/70 tracking-[.25em] uppercase mb-2">From the Developer</p>
+                        <h2 class="text-lg sm:text-2xl font-light tracking-tight text-white">This thing is very new.  <br class="block lg:hidden">And I built it for me, too.</h2>
                     </div>
                 </div>
 
-                <div class="space-y-4 text-sm font-light text-white/50 leading-relaxed">
-                    <p>HOPPP! is an MVP. It works, it argues back, and The Goalkeeper has denied me <span id="denial-count" class="text-white/80 font-medium"></span> times since we launched. There is so much more I want to improve and I would rather make something people actually love using than keep shipping features nobody asked for.</p>
+                <div class="space-y-3 text-sm font-light text-white/65 leading-relaxed">
+                    <p>HOPPP! is an MVP. It works, it argues back, and The Goalkeeper has denied me <span id="denial-count" class="text-white font-medium"></span> times since we launched. There is so much more I want to improve and I would rather make something people actually love using than keep shipping features nobody asked for.</p>
                     <p>If something is broken, confusing, or missing, or you have a feature idea that would make this genuinely useful for your life, I want to hear it. Not via a feedback form that goes into a void. Directly.</p>
-                    <p class="text-white/30 italic">Yes, I will read it. No, I won't be offended. Probably.</p>
+                    <p class="text-white/40 italic">Yes, I will read it. No, I won't be offended. Probably.</p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3 mt-8">
+                <div class="flex flex-col sm:flex-row gap-3 mt-7">
                     <a href="https://wa.me/62881080881097"
                        target="_blank" rel="noopener"
                        class="btn-glow flex items-center justify-center gap-2.5 px-6 py-3 rounded-full glass text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">
@@ -563,14 +565,14 @@
     </section>
 
     <!-- CTA -->
-    <section class="relative z-10 py-24 sm:py-32 section-fade">
-        <div class="max-w-lg mx-auto px-6">
-            <div class="reveal glass-strong rounded-3xl p-10 sm:p-14 text-center pixel-border">
-                <div class="hero-icon w-16 h-16 rounded-2xl app-icon flex items-center justify-center mx-auto mb-7">
-                    <i data-lucide="shield-alert" class="w-8 h-8 text-white/90"></i>
+    <section class="relative z-10 py-14 sm:py-24 section-fade">
+        <div class="max-w-lg mx-auto px-5 sm:px-8">
+            <div class="reveal glass-strong rounded-2xl sm:rounded-3xl p-7 sm:p-14 text-center pixel-border">
+                <div class="hero-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl app-icon flex items-center justify-center mx-auto mb-5 sm:mb-7">
+                    <i data-lucide="shield-alert" class="w-7 h-7 sm:w-8 sm:h-8 text-white/90"></i>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-light tracking-tight text-white/90 mb-3">You already know you need this.</h2>
-                <p class="text-sm font-light text-white/40 mb-9 max-w-xs mx-auto leading-relaxed">
+                <h2 class="text-xl sm:text-3xl font-light tracking-tight text-white mb-3">You already know you need this.</h2>
+                <p class="text-sm font-light text-white/60 mb-7 sm:mb-9 max-w-xs mx-auto leading-relaxed">
                     Free to download. No excuses.<br>The Goalkeeper is already waiting.
                 </p>
                 <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
@@ -584,21 +586,21 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="relative z-10 py-10 border-t border-white/[0.05]">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer class="relative z-10 py-8 border-t border-white/[0.08]">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
             <div class="flex items-center gap-2.5">
                 <div class="w-6 h-6 rounded-md app-icon flex items-center justify-center">
                     <i data-lucide="shield-alert" class="w-3 h-3 text-white/80"></i>
                 </div>
-                <span class="font-pixel text-[7px] text-white/25 tracking-widest">HOPPP!</span>
+                <span class="font-pixel text-[7px] text-white/40 tracking-widest">HOPPP!</span>
             </div>
-            <p class="text-[11px] text-white/20 font-light">&copy; 2026 Kobar &middot; Crafted with Claude</p>
+            <p class="text-[12px] text-white/35 font-light">&copy; 2026 Kobar &middot; Crafted with Claude</p>
             <div class="flex items-center gap-5">
-                <button onclick="openModal('privacy')" class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Privacy Policy</button>
-                <button onclick="openModal('terms')" class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Terms of Use</button>
+                <button onclick="openModal('privacy')" class="text-[12px] text-white/40 hover:text-white/70 transition-colors">Privacy Policy</button>
+                <button onclick="openModal('terms')" class="text-[12px] text-white/40 hover:text-white/70 transition-colors">Terms of Use</button>
                 <a href="https://play.google.com/store/apps/details?id=co.kobar.hoppp"
                    target="_blank" rel="noopener"
-                   class="text-[11px] text-white/25 hover:text-white/50 transition-colors">Google Play</a>
+                   class="text-[12px] text-white/40 hover:text-white/70 transition-colors">Google Play</a>
             </div>
         </div>
     </footer>
@@ -606,13 +608,13 @@
     <!-- PRIVACY POLICY MODAL -->
     <div id="modal-privacy" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 hidden">
         <div class="modal-box glass-strong rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col" style="border: 1px solid rgba(255,255,255,0.16);">
-            <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-white/[0.08]">
+            <div class="flex items-center justify-between px-5 pt-5 pb-4 sm:px-8 sm:pt-7 sm:pb-5 border-b border-white/[0.08]">
                 <h2 class="text-base font-medium text-white/90 tracking-wide">Privacy Policy</h2>
                 <button onclick="closeModal('privacy')" class="text-white/30 hover:text-white/70 transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            <div class="overflow-y-auto px-8 py-6 text-[13px] text-white/50 leading-relaxed space-y-6 modal-scroll">
+            <div class="overflow-y-auto px-5 py-5 sm:px-8 sm:py-6 text-[13px] text-white/65 leading-relaxed space-y-6 modal-scroll">
 
                 <p class="text-white/30 text-[11px]">Last updated: April 2025</p>
 
@@ -715,13 +717,13 @@
     <!-- TERMS OF USE MODAL -->
     <div id="modal-terms" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 hidden">
         <div class="modal-box glass-strong rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col" style="border: 1px solid rgba(255,255,255,0.16);">
-            <div class="flex items-center justify-between px-8 pt-7 pb-5 border-b border-white/[0.08]">
+            <div class="flex items-center justify-between px-5 pt-5 pb-4 sm:px-8 sm:pt-7 sm:pb-5 border-b border-white/[0.08]">
                 <h2 class="text-base font-medium text-white/90 tracking-wide">Terms of Use</h2>
                 <button onclick="closeModal('terms')" class="text-white/30 hover:text-white/70 transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            <div class="overflow-y-auto px-8 py-6 text-[13px] text-white/50 leading-relaxed space-y-6 modal-scroll">
+            <div class="overflow-y-auto px-5 py-5 sm:px-8 sm:py-6 text-[13px] text-white/65 leading-relaxed space-y-6 modal-scroll">
 
                 <p class="text-white/30 text-[11px]">Last updated: April 2025</p>
 
