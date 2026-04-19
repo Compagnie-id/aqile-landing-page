@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1024" />
+    <title>HOPPP! Feature Graphic</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1024px;
+        height: 500px;
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0a0a2e 0%,
+          #1a1040 20%,
+          #2d1b69 45%,
+          #5b3a8c 65%,
+          #c76b8f 85%,
+          #e8a87c 100%
+        );
+        position: relative;
+      }
+
+      /* Stars */
+      .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.6;
+      }
+
+      /* Subtle noise texture */
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            ellipse at 25% 40%,
+            rgba(91, 58, 140, 0.4) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 75% 60%,
+            rgba(199, 107, 143, 0.25) 0%,
+            transparent 50%
+          );
+        z-index: 1;
+      }
+
+      .container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 64px;
+        padding: 0 80px;
+      }
+
+      /* Left: text content */
+      .text-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 4px;
+      }
+
+      .app-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #2d1b69 0%, #5b3a8c 50%, #c76b8f 100%);
+        box-shadow:
+          0 0 30px rgba(91, 58, 140, 0.6),
+          0 0 60px rgba(199, 107, 143, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .app-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .brand {
+        font-family: "Press Start 2P", cursive;
+        font-size: 28px;
+        color: #d4b87a;
+        letter-spacing: 0.25em;
+      }
+
+      .tagline {
+        font-size: 38px;
+        font-weight: 300;
+        color: white;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+      }
+
+      .sub {
+        font-size: 16px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.6;
+        max-width: 380px;
+      }
+
+      /* Right: phone mockup */
+      .phone-side {
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      .phone {
+        width: 220px;
+        height: 420px;
+        border-radius: 32px;
+        background: linear-gradient(160deg, #1a1040 0%, #0d1520 60%, #0a0f18 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 0 60px rgba(91, 58, 140, 0.4),
+          0 32px 64px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .phone::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.3;
+        background:
+          radial-gradient(ellipse at 30% 20%, #5b3a8c 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 80%, #c76b8f 0%, transparent 50%);
+      }
+
+      .phone-inner {
+        position: relative;
+        z-index: 1;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .phone-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .phone-time {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        font-weight: 500;
+      }
+
+      .phone-battery {
+        width: 14px;
+        height: 8px;
+        border-radius: 2px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+      }
+
+      .phone-battery::after {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        bottom: 2px;
+        width: 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 1px;
+      }
+
+      .phone-header {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 14px;
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        backdrop-filter: blur(20px);
+      }
+
+      .phone-header-label {
+        font-size: 8px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .phone-header-app {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .bubble {
+        border-radius: 14px;
+        padding: 10px 14px;
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+
+      .bubble-ai {
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.9);
+        align-self: flex-start;
+        max-width: 85%;
+        border-top-left-radius: 4px;
+      }
+
+      .bubble-user {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.65);
+        align-self: flex-end;
+        max-width: 75%;
+        border-top-right-radius: 4px;
+        text-align: right;
+      }
+
+      .chat-area {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+      }
+
+      /* Typing dots */
+      .dots {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        height: 16px;
+      }
+
+      .dots span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Glow behind phone */
+      .phone-glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(199, 107, 143, 0.2) 0%,
+          transparent 70%
+        );
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Stars -->
+    <script>
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement("div");
+        s.className = "star";
+        const size = 1 + Math.random() * 1.5;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.opacity = (0.2 + Math.random() * 0.5).toFixed(2);
+        document.body.appendChild(s);
+      }
+    </script>
+
+    <div class="container">
+      <!-- Left: Text -->
+      <div class="text-side">
+        <div class="logo-row">
+          <div class="app-icon">
+            <img src="https://s6.imgcdn.dev/Y98DIT.png" alt="HOPPP!" />
+          </div>
+          <span class="brand">HOPPP!</span>
+        </div>
+        <div class="tagline">
+          Your phone,<br />but it argues back.
+        </div>
+        <div class="sub">
+          An AI goalkeeper that stands between you and your worst scrolling
+          habits. No timers. No workarounds. Just accountability.
+        </div>
+      </div>
+
+      <!-- Right: Phone -->
+      <div class="phone-side">
+        <div class="phone-glow"></div>
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="phone-status">
+              <span class="phone-time">10:47</span>
+              <div class="phone-battery"></div>
+            </div>
+            <div class="phone-header">
+              <div class="phone-header-label">The Archivist</div>
+              <div class="phone-header-app">Instagram</div>
+            </div>
+            <div class="chat-area">
+              <div class="bubble bubble-ai">
+                Instagram. 10:47pm. Third attempt today. Your deadline is
+                Friday. Reason?
+              </div>
+              <div class="bubble bubble-user">I just need a quick break</div>
+              <div class="bubble bubble-ai">
+                You said that at 8pm. And at 9:15pm. That is not a reason.
+                That is a habit.
+              </div>
+              <div class="typing-indicator">
+                <div class="bubble bubble-ai" style="padding: 10px 16px; max-width: 60px;">
+                  <div class="dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
