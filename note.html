@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOPPP!</title>
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/png" href="../assets/icon-512.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              pixel: ['"Press Start 2P"', "cursive"],
+            },
+            colors: {
+              gold: { 400: "#d4b87a", 500: "#c9a96e", 600: "#b8944f" },
+              dusk: { 900: "#0a0a2e", 800: "#1a1040" },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a2e;
+        min-height: 100vh;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .app-icon {
+        background: linear-gradient(
+          135deg,
+          #2d1b69 0%,
+          #5b3a8c 50%,
+          #c76b8f 100%
+        );
+        box-shadow: 0 0 30px rgba(91, 58, 140, 0.5);
+      }
+      .tag-pill {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 9999px;
+        font-size: 0.65rem;
+      }
+      .cms-content h2 {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+        font-size: 1.25rem;
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .cms-content h3 {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+        font-size: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .cms-content p {
+        margin-bottom: 1rem;
+        line-height: 1.8;
+      }
+      .cms-content ul,
+      .cms-content ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+        list-style-type: disc;
+      }
+      .cms-content ol {
+        list-style-type: decimal;
+      }
+      .cms-content li {
+        margin-bottom: 0.5rem;
+        line-height: 1.7;
+      }
+      .cms-content a {
+        color: rgba(212, 184, 122, 0.8);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: color 0.2s;
+      }
+      .cms-content a:hover {
+        color: #d4b87a;
+      }
+      .cms-content strong {
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 600;
+      }
+      .cms-content em {
+        color: rgba(255, 255, 255, 0.6);
+        font-style: italic;
+      }
+      .cms-content blockquote {
+        border-left: 2px solid rgba(212, 184, 122, 0.4);
+        padding-left: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-style: italic;
+        margin: 1.5rem 0;
+      }
+      .cms-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+      }
+      .cms-content th {
+        padding: 0.6rem 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .cms-content td {
+        padding: 0.6rem 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .cms-content code {
+        font-family: monospace;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.125rem 0.375rem;
+        border-radius: 0.25rem;
+        font-size: 0.85em;
+        color: rgba(212, 184, 122, 0.9);
+      }
+      .cms-content pre {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        overflow-x: auto;
+        margin-bottom: 1.5rem;
+      }
+      .cms-content pre code {
+        background: none;
+        padding: 0;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .cms-content hr {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+  <body class="text-white antialiased">
+    <nav class="sticky top-0 z-50 glass">
+      <div
+        class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <a href="/" class="flex items-center gap-3 group">
+          <div
+            class="w-8 h-8 rounded-lg app-icon flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+          >
+            <img src="../assets/icon-512.png" alt="HOPPP! logo" />
+          </div>
+          <span
+            class="font-pixel text-[10px] sm:text-xs text-gold-400 tracking-widest"
+            >HOPPP!</span
+          >
+        </a>
+        <a
+          href="/notes.html"
+          class="flex items-center gap-2 px-4 py-2 rounded-full glass text-xs sm:text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+          >&larr; All Notes</a
+        >
+      </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-20">
+      <div id="content-loading" class="text-center py-20 text-white/30 text-sm">
+        Loading...
+      </div>
+      <div
+        id="content-error"
+        class="hidden text-center py-20 text-white/30 text-sm"
+      >
+        Note not found.
+        <a href="/notes.html" class="text-gold-400/70 hover:text-gold-400"
+          >Back to notes</a
+        >
+      </div>
+
+      <article id="content-body" class="hidden">
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-4 flex-wrap">
+            <span id="note-type" class="tag-pill"></span>
+            <span class="text-white/25 text-xs" id="note-reading-time"></span>
+          </div>
+          <h1
+            class="text-2xl sm:text-4xl font-light tracking-tight text-white mb-4 leading-snug"
+            id="note-title"
+          ></h1>
+          <p class="text-white/50 text-sm mb-4" id="note-excerpt"></p>
+          <div class="flex items-center gap-3 text-white/30 text-xs">
+            <span id="note-author"></span>
+            <span>&middot;</span>
+            <span id="note-date"></span>
+          </div>
+          <div class="flex gap-2 flex-wrap mt-4" id="note-tags"></div>
+        </div>
+
+        <div class="border-t border-white/[0.06] pt-8">
+          <div
+            class="text-[15px] text-white/70 leading-relaxed cms-content"
+            id="note-html"
+          ></div>
+        </div>
+      </article>
+    </main>
+
+    <footer class="py-8 border-t border-white/[0.08] mt-12">
+      <div
+        class="max-w-4xl mx-auto px-5 sm:px-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-6 h-6 rounded-md app-icon flex items-center justify-center"
+          >
+            <img src="../assets/icon-512.png" alt="HOPPP! logo" />
+          </div>
+          <span class="font-pixel text-[7px] text-white/40 tracking-widest"
+            >HOPPP!</span
+          >
+        </div>
+        <p class="text-[12px] text-white/35 font-light">&copy; 2026 HOPPP!</p>
+        <div class="flex items-center gap-5">
+          <a
+            href="/privacy-policy.html"
+            class="text-[12px] text-white/40 hover:text-white/70 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="/terms-of-use.html"
+            class="text-[12px] text-white/40 hover:text-white/70 transition-colors"
+            >Terms of Use</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const API = ["localhost", "127.0.0.1"].includes(location.hostname)
+        ? "http://localhost:3001"
+        : "https://hoppp-api-2hw2qw3tea-ts.a.run.app";
+
+      const TYPE_COLORS = {
+        blog: {
+          bg: "rgba(99,102,241,0.12)",
+          border: "rgba(99,102,241,0.3)",
+          color: "rgba(165,180,252,0.85)",
+        },
+        news: {
+          bg: "rgba(16,185,129,0.1)",
+          border: "rgba(16,185,129,0.3)",
+          color: "rgba(52,211,153,0.85)",
+        },
+        changelog: {
+          bg: "rgba(212,184,122,0.1)",
+          border: "rgba(212,184,122,0.3)",
+          color: "rgba(212,184,122,0.85)",
+        },
+        tip: {
+          bg: "rgba(251,191,36,0.1)",
+          border: "rgba(251,191,36,0.3)",
+          color: "rgba(251,191,36,0.85)",
+        },
+        character: {
+          bg: "rgba(199,107,143,0.1)",
+          border: "rgba(199,107,143,0.3)",
+          color: "rgba(199,107,143,0.85)",
+        },
+        faq: {
+          bg: "rgba(255,255,255,0.06)",
+          border: "rgba(255,255,255,0.15)",
+          color: "rgba(255,255,255,0.5)",
+        },
+        legal: {
+          bg: "rgba(255,255,255,0.04)",
+          border: "rgba(255,255,255,0.1)",
+          color: "rgba(255,255,255,0.35)",
+        },
+      };
+
+      const slug = new URLSearchParams(location.search).get("slug");
+
+      if (!slug) {
+        location.href = "/notes.html";
+      } else {
+        fetch(`${API}/web/content/${encodeURIComponent(slug)}`)
+          .then((r) => {
+            if (!r.ok) throw new Error();
+            return r.json();
+          })
+          .then(({ data }) => {
+            document.title = data.title + " | HOPPP!";
+
+            const c = TYPE_COLORS[data.type] || TYPE_COLORS.faq;
+            const typeEl = document.getElementById("note-type");
+            typeEl.textContent = data.type.toUpperCase();
+            typeEl.style.cssText = `background:${c.bg}; border:1px solid ${c.border}; color:${c.color};`;
+
+            document.getElementById("note-title").textContent = data.title;
+            document.getElementById("note-excerpt").textContent = data.excerpt;
+            document.getElementById("note-html").innerHTML = data.html;
+            document.getElementById("note-author").textContent = data.author;
+            document.getElementById("note-date").textContent = new Date(
+              data.date,
+            ).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            document.getElementById("note-reading-time").textContent =
+              data.readingTime + " min read";
+
+            const tagsEl = document.getElementById("note-tags");
+            (data.tags || []).forEach((tag) => {
+              const s = document.createElement("span");
+              s.className = "tag-pill";
+              s.style.cssText =
+                "background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.4);";
+              s.textContent = tag;
+              tagsEl.appendChild(s);
+            });
+
+            document.getElementById("content-loading").classList.add("hidden");
+            document.getElementById("content-body").classList.remove("hidden");
+          })
+          .catch(() => {
+            document.getElementById("content-loading").classList.add("hidden");
+            document.getElementById("content-error").classList.remove("hidden");
+          });
+      }
+    </script>
+  </body>
+</html>

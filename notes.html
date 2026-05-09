@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes | HOPPP!</title>
+    <meta
+      name="description"
+      content="Blog, changelog, and news from HOPPP! — the AI-powered app blocker."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/png" href="../assets/icon-512.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              pixel: ['"Press Start 2P"', "cursive"],
+            },
+            colors: {
+              gold: { 400: "#d4b87a", 500: "#c9a96e", 600: "#b8944f" },
+              dusk: { 900: "#0a0a2e", 800: "#1a1040" },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a2e;
+        min-height: 100vh;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .app-icon {
+        background: linear-gradient(
+          135deg,
+          #2d1b69 0%,
+          #5b3a8c 50%,
+          #c76b8f 100%
+        );
+        box-shadow: 0 0 30px rgba(91, 58, 140, 0.5);
+      }
+      .note-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 1rem;
+        padding: 1.25rem 1.5rem;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+        text-decoration: none;
+        display: block;
+      }
+      .note-card:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+      .tag-pill {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 9999px;
+        font-size: 0.65rem;
+      }
+      .filter-btn {
+        padding: 0.375rem 0.875rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.2s;
+        background: transparent;
+      }
+      .filter-btn:hover {
+        color: rgba(255, 255, 255, 0.8);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .filter-btn.active {
+        background: rgba(212, 184, 122, 0.12);
+        border-color: rgba(212, 184, 122, 0.35);
+        color: rgba(212, 184, 122, 0.9);
+      }
+    </style>
+  </head>
+  <body class="text-white antialiased">
+    <nav class="sticky top-0 z-50 glass">
+      <div
+        class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <a href="/" class="flex items-center gap-3 group">
+          <div
+            class="w-8 h-8 rounded-lg app-icon flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+          >
+            <img src="../assets/icon-512.png" alt="HOPPP! logo" />
+          </div>
+          <span
+            class="font-pixel text-[10px] sm:text-xs text-gold-400 tracking-widest"
+            >HOPPP!</span
+          >
+        </a>
+        <a
+          href="/"
+          class="flex items-center gap-2 px-4 py-2 rounded-full glass text-xs sm:text-sm text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+          >&larr; Back to Home</a
+        >
+      </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-20">
+      <div class="mb-10">
+        <p
+          class="font-pixel text-[9px] text-gold-400/60 tracking-[.25em] uppercase mb-3"
+        >
+          The Archivist
+        </p>
+        <h1
+          class="text-2xl sm:text-4xl font-light tracking-tight text-white mb-2"
+        >
+          Notes
+        </h1>
+        <p class="text-white/40 text-sm">
+          Product (over)thinking, release notes, and news.
+        </p>
+      </div>
+
+      <div class="flex gap-2 flex-wrap mb-8" id="filters">
+        <button class="filter-btn active" data-type="all">All</button>
+        <button class="filter-btn" data-type="blog">Blog</button>
+        <button class="filter-btn" data-type="news">News</button>
+        <button class="filter-btn" data-type="changelog">Changelog</button>
+        <button class="filter-btn" data-type="tip">Tips</button>
+      </div>
+
+      <div id="posts-loading" class="text-center py-16 text-white/30 text-sm">
+        Loading...
+      </div>
+      <div
+        id="posts-error"
+        class="hidden text-center py-16 text-white/30 text-sm"
+      >
+        Failed to load notes.
+      </div>
+      <div
+        id="posts-empty"
+        class="hidden text-center py-16 text-white/30 text-sm"
+      >
+        Nothing here yet.
+      </div>
+      <div id="posts-list" class="hidden space-y-4"></div>
+    </main>
+
+    <footer class="py-8 border-t border-white/[0.08] mt-12">
+      <div
+        class="max-w-4xl mx-auto px-5 sm:px-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-6 h-6 rounded-md app-icon flex items-center justify-center"
+          >
+            <img src="../assets/icon-512.png" alt="HOPPP! logo" />
+          </div>
+          <span class="font-pixel text-[7px] text-white/40 tracking-widest"
+            >HOPPP!</span
+          >
+        </div>
+        <p class="text-[12px] text-white/35 font-light">&copy; 2026 HOPPP!</p>
+        <div class="flex items-center gap-5">
+          <a
+            href="/privacy-policy.html"
+            class="text-[12px] text-white/40 hover:text-white/70 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="/terms-of-use.html"
+            class="text-[12px] text-white/40 hover:text-white/70 transition-colors"
+            >Terms of Use</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const API = ["localhost", "127.0.0.1"].includes(location.hostname)
+        ? "http://localhost:3001"
+        : "https://hoppp-api-2hw2qw3tea-ts.a.run.app";
+
+      const VISIBLE_TYPES = ["blog", "news", "changelog", "tip"];
+
+      const TYPE_COLORS = {
+        blog: {
+          bg: "rgba(99,102,241,0.12)",
+          border: "rgba(99,102,241,0.3)",
+          color: "rgba(165,180,252,0.85)",
+        },
+        news: {
+          bg: "rgba(16,185,129,0.1)",
+          border: "rgba(16,185,129,0.3)",
+          color: "rgba(52,211,153,0.85)",
+        },
+        changelog: {
+          bg: "rgba(212,184,122,0.1)",
+          border: "rgba(212,184,122,0.3)",
+          color: "rgba(212,184,122,0.85)",
+        },
+        tip: {
+          bg: "rgba(251,191,36,0.1)",
+          border: "rgba(251,191,36,0.3)",
+          color: "rgba(251,191,36,0.85)",
+        },
+      };
+
+      let allPosts = [];
+      let activeType = "all";
+
+      function typeStyle(type) {
+        const c = TYPE_COLORS[type] || {
+          bg: "rgba(255,255,255,0.06)",
+          border: "rgba(255,255,255,0.15)",
+          color: "rgba(255,255,255,0.5)",
+        };
+        return `background:${c.bg}; border:1px solid ${c.border}; color:${c.color};`;
+      }
+
+      function renderPosts(posts) {
+        const list = document.getElementById("posts-list");
+        const empty = document.getElementById("posts-empty");
+        list.innerHTML = "";
+
+        const filtered =
+          activeType === "all"
+            ? posts.filter((p) => VISIBLE_TYPES.includes(p.type))
+            : posts.filter((p) => p.type === activeType);
+
+        if (!filtered.length) {
+          list.classList.add("hidden");
+          empty.classList.remove("hidden");
+          return;
+        }
+        empty.classList.add("hidden");
+        list.classList.remove("hidden");
+
+        filtered.forEach((post) => {
+          const date = new Date(post.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          const card = document.createElement("a");
+          card.href = `/note.html?slug=${encodeURIComponent(post.slug)}`;
+          card.className = "note-card";
+          card.innerHTML = `
+            <div class="flex items-center gap-2 mb-2 flex-wrap">
+              <span class="tag-pill" style="${typeStyle(post.type)}">${post.type.toUpperCase()}</span>
+              <span class="text-white/25 text-[11px]">${post.readingTime} min read</span>
+            </div>
+            <h2 class="text-base sm:text-lg font-light text-white mb-1 leading-snug">${post.title}</h2>
+            <p class="text-[13px] text-white/45 mb-3 leading-relaxed line-clamp-2">${post.excerpt}</p>
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] text-white/30">${post.author} &middot; ${date}</span>
+              <span class="text-[11px] text-gold-400/60">Read &rarr;</span>
+            </div>
+          `;
+          list.appendChild(card);
+        });
+      }
+
+      document.getElementById("filters").addEventListener("click", (e) => {
+        const btn = e.target.closest(".filter-btn");
+        if (!btn) return;
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeType = btn.dataset.type;
+        renderPosts(allPosts);
+      });
+
+      const urlType = new URLSearchParams(location.search).get("type");
+      if (urlType) {
+        activeType = urlType;
+        document.querySelectorAll(".filter-btn").forEach((b) => {
+          b.classList.toggle("active", b.dataset.type === urlType);
+        });
+      }
+
+      fetch(`${API}/web/content`)
+        .then((r) => r.json())
+        .then(({ data }) => {
+          allPosts = data;
+          document.getElementById("posts-loading").classList.add("hidden");
+          renderPosts(allPosts);
+        })
+        .catch(() => {
+          document.getElementById("posts-loading").classList.add("hidden");
+          document.getElementById("posts-error").classList.remove("hidden");
+        });
+    </script>
+  </body>
+</html>
